@@ -1,35 +1,73 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import './App.css';
+import questionSets from "./questions";
+import { useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+function SurveyQuestion({ question, options }) {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="survey-question">
+      <div className="question-info">
+        Answer the question
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      <p>{question}</p>
+      {options.map((option, index) => (
+        <div key={index} className="option">
+          <input type="radio" id={option} name={question} value={option} />
+          <label htmlFor={option}>{option}</label>
+        </div>
+      ))}
+    </div>
+  );
 }
 
-export default App
+function App() {
+  const [currentPage,setCurrentPage]= useState(1);
+  const handleNext = () => {
+    if (currentPage < questionSets.length - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  // Handle the Previous button click (if needed)
+  const handlePrevious = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+  
+
+  const options = ["Gojek", "Grabfood", "Uberfood", "Delivery app restoran"];
+  console.log(questionSets[currentPage])
+  return (
+    <div className="app">
+      <header className="header">
+        <h1>SurvYAY</h1>
+        <nav>
+          <a href="#home">Home</a>
+          <a href="#reward">Reward</a>
+          <a href="#about">About</a>
+          <a href="#help">Help</a>
+        </nav>
+       
+      </header>
+      <main>
+        {questionSets[currentPage].map((question, index) => (
+          <SurveyQuestion key={index} question={question} options={options} />
+        ))}
+        {/* <button className="submit-button">Submit</button> */}
+        <div className="button-container">
+          {currentPage > 0 && (
+            <button onClick={handlePrevious} className="nav-button">Previous</button>
+          )}
+          {currentPage < questionSets.length - 1 ? (
+            <button onClick={handleNext} className="nav-button">Next</button>
+          ) : (
+            <button className="submit-button">Submit</button>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
+
+export default App;
