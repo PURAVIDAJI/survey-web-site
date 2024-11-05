@@ -119,3 +119,12 @@
   cursor: pointer;
   align-self: self-end;
 }
+
+.short-answer-input {
+  width: 80%;
+  padding: 10px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}

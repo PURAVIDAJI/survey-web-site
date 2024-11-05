@@ -3,25 +3,39 @@ import './App.css';
 import questionSets from "./questions";
 import { useState } from 'react';
 
-function SurveyQuestion({ question, options }) {
+function SurveyQuestion({ q, questionNumber }) {
   return (
     <div className="survey-question">
-      <div className="question-info">
-        Answer the question
-      </div>
-      <p>{question}</p>
-      {options.map((option, index) => (
+
+      <p>{questionNumber + "." + q.question}</p>
+
+      {q.type == "short answer" ? (<div>
+        {/* <label htmlFor="shortAnswer">Question 2: Please describe yourself briefly:</label> */}
+        <input
+          type="text"
+          id="shortAnswer"
+          placeholder="Type your answer here"
+          className="short-answer-input"
+          name={`question-${questionNumber}`} />
+      </div>) : (q.options.map((option, index) => (
         <div key={index} className="option">
-          <input type="radio" id={option} name={question} value={option} />
+          <input
+            type="radio"
+            id={option}
+            name={`question-${questionNumber}`} // Make name unique for each question
+            value={option}
+          />
           <label htmlFor={option}>{option}</label>
         </div>
-      ))}
+      )))
+      }
+
     </div>
   );
 }
 
 function App() {
-  const [currentPage,setCurrentPage]= useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
   const handleNext = () => {
     if (currentPage < questionSets.length - 1) {
       setCurrentPage(currentPage + 1);
@@ -34,7 +48,7 @@ function App() {
       setCurrentPage(currentPage - 1);
     }
   };
-  
+
 
   const options = ["Gojek", "Grabfood", "Uberfood", "Delivery app restoran"];
   console.log(questionSets[currentPage])
@@ -48,13 +62,13 @@ function App() {
           <a href="#about">About</a>
           <a href="#help">Help</a>
         </nav>
-       
+
       </header>
       <main>
-        {questionSets[currentPage].map((question, index) => (
-          <SurveyQuestion key={index} question={question} options={options} />
+        {questionSets[currentPage].map((q, index) => (
+          <SurveyQuestion key={index} q={q} questionNumber={index + 1} />
         ))}
-        {/* <button className="submit-button">Submit</button> */}
+
         <div className="button-container">
           {currentPage > 0 && (
             <button onClick={handlePrevious} className="nav-button">Previous</button>
