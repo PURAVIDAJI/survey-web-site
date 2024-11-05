@@ -21,7 +21,7 @@ function SurveyQuestion({ question, options }) {
 }
 
 function App() {
-  const [currentPage,setCurrentPage]= useState(1);
+  const [currentPage,setCurrentPage]= useState(0);
   const handleNext = () => {
     if (currentPage < questionSets.length - 1) {
       setCurrentPage(currentPage + 1);
@@ -62,7 +62,7 @@ function App() {
           {currentPage < questionSets.length - 1 ? (
             <button onClick={handleNext} className="nav-button">Next</button>
           ) : (
-            <button className="submit-button">Submit</button>
+            <button className="nav-button" style={{ backgroundColor: "#008CBA" }}>Submit</button>
           )}
         </div>
       </main>

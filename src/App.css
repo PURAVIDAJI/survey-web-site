@@ -7,10 +7,11 @@
 }
 
 .app {
-  padding: 20px;
+  padding: 40px;
   width: 100%;
   margin: 0 auto;
   max-width: 100%;
+  
   
 }
 
@@ -20,11 +21,12 @@
   align-items: center;
   padding-bottom: 20px;
   border-bottom: 1px solid #ddd;
+  font-size: 24px;
  
 }
 
 .header h1 {
-  font-size: 24px;
+  font-size: 30px;
 }
 
 .header nav a {
@@ -38,7 +40,9 @@
 }
 
 .survey-question {
-  margin-top: 20px;
+  margin-top: 40px;
+  margin-right: 100px;
+  margin-left: 40px;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
