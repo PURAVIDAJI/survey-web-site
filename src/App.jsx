@@ -5,11 +5,11 @@ import { useState } from 'react';
 
 function SurveyQuestion({ q, questionNumber }) {
   return (
-    <div className="survey-question">
+    <div className="survey-question" >
 
-      <p>{questionNumber + "." + q.question}</p>
+      <p style={{ backgroundColor: "#F8E8EE" }}>{questionNumber + "." + q.question}</p>
 
-      {q.type == "short answer" ? (<div>
+      {q.type == "short answer" ? (<div style={{ backgroundColor: "#F8E8EE" }}>
         {/* <label htmlFor="shortAnswer">Question 2: Please describe yourself briefly:</label> */}
         <input
           type="text"
@@ -18,14 +18,14 @@ function SurveyQuestion({ q, questionNumber }) {
           className="short-answer-input"
           name={`question-${questionNumber}`} />
       </div>) : (q.options.map((option, index) => (
-        <div key={index} className="option">
+        <div key={index} className="option" style={{ backgroundColor: "#F8E8EE" }}>
           <input
             type="radio"
             id={option}
             name={`question-${questionNumber}`} // Make name unique for each question
             value={option}
           />
-          <label htmlFor={option}>{option}</label>
+          <label htmlFor={option} style={{ backgroundColor: "#F8E8EE" }}>{option}  </label>
         </div>
       )))
       }

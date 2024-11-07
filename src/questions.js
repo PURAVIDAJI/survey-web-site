@@ -50,7 +50,18 @@ const questionSets = [
         { question: "Visual elements are important for my understanding and engagement", type: "multiple choice", options: ["Strongly disagree", "Disagree", "Neutral", "Agree", "Strongly agree"] }
     ],
     [
-        { question: "Is there anything else you would like to add about surveys?", type: "short answer", options: [] }
+        { question: "Have you ever abandoned a survey? If so, why?", type: "short answer", options: [] },
+        { question: "How do you feel about the privacy of your responses in surveys?", type: "short answer", options: [] },
+        { question: "Have you ever felt that your feedback from a survey led to a tangible change?", type: "short answer", options: [] },
+        { question: "On a scale of 1 to 10, how important is the aesthetic design of a survey to you?", type: "short answer", options: [] },
+        { question: "What types of surveys are you more inclined to respond to?", type: "multiple choice", options: ["Online surveys", "In-person interviews", "Online interviews", "Telephone surveys", "Focus groups", "Mail-in surveys", "Kiosk surveys"] },
+        { question: "What devices do you usually use to complete surveys? Select all that apply.", type: "multiple choice", options: ["Smartphone", "Tablet", "Computer", "Other"] },
+        { question: "How much do you trust surveys conducted by different organizations (e.g., academic, government, commercial)?", type: "short answer", options: [] },
+        { question: "Do you experience survey fatigue? If so, what factors contribute to it?", type: "short answer", options: [] },
+        { question: "What improvements would you suggest for the survey process?", type: "short answer", options: [] },
+        { question: "How does language and accessibility affect your willingness to participate in surveys?", type: "short answer", options: [] },
+        { question: "How important is it for organizations to disclose how they will use your data from surveys?", type: "short answer", options: [] },
+        { question: "Have you ever encountered a question in a survey that was difficult to answer? Please explain.", type: "short answer", options: [] }
     ]
 ];
 
