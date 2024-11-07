@@ -3,8 +3,7 @@
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #F9F5F6;
-  /* max-width: 100%; */
+  background-color: #f9f5f6;
 }
 
 .app {
@@ -12,10 +11,9 @@
   width: 100%;
   margin: 0 auto;
   max-width: 100%;
-  
-  
 }
 
+/* Header Styles */
 .header {
   display: flex;
   justify-content: space-between;
@@ -23,7 +21,6 @@
   padding-bottom: 20px;
   border-bottom: 1px solid #ddd;
   font-size: 24px;
- 
 }
 
 .header h1 {
@@ -40,12 +37,13 @@
   font-size: 14px;
 }
 
+/* Survey Question Styles */
 .survey-question {
   margin-top: 40px;
   margin-right: 100px;
   margin-left: 40px;
   padding: 20px;
-  background-color: #F8E8EE;
+  background-color: #f8e8ee;
   border-radius: 8px;
   border: 1px solid #ddd;
 }
@@ -79,48 +77,10 @@
 }
 
 .option label {
-  color: #000; /* Set answer option text color to black */
-}
-.submit-button {
-  display: block;
-  width: 100%;
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #00695c;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  cursor: pointer;
+  color: #000;
 }
 
-.submit-button:hover {
-  background-color: #004d40;
-}
-
-.button-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.nav-button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-}
-
-.submit-button {
-  background-color: #008CBA;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  align-self: self-end;
-}
-
+/* Short Answer Input */
 .short-answer-input {
   width: 80%;
   padding: 10px;
@@ -128,4 +88,135 @@
   border-radius: 8px;
   border: 1px solid #ccc;
   box-sizing: border-box;
+}
+
+/* Button Styles */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.nav-button,
+.submit-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.nav-button:hover {
+  background-color: #388e3c;
+}
+
+.submit-button:hover {
+  background-color: #004d40;
+}
+
+/* Section Progress Bar Styles */
+.section-progress-bar {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px 0;
+}
+
+.section-progress-bar p {
+  font-size: 14px;
+  color: #333;
+}
+
+.progress-bar {
+  height: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  background-color: #4caf50;
+}
+
+.section-steps {
+  display: flex;
+  justify-content: space-around;
+  font-size: 12px;
+  color: #333;
+}
+
+.section-steps .step {
+  position: relative;
+  padding: 4px 10px;
+}
+
+.section-steps .completed {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.section-steps .completed::before {
+  content: "✔";
+  position: absolute;
+  left: -15px;
+  font-size: 14px;
+}
+
+/* Question Progress Bar (Circular) */
+.question-progress-bar {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  margin: 20px auto;
+}
+
+.circular-chart {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.circle-bg {
+  fill: none;
+  stroke: #e6e6e6;
+  stroke-width: 3.8;
+}
+
+.circle {
+  fill: none;
+  stroke: #4caf50;
+  stroke-width: 2.8;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.3s ease;
+}
+
+.percentage-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Survey Content Layout */
+.survey-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.questions {
+  flex: 3;
+  padding-right: 20px;
+}
+
+.question-progress-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
