@@ -1,5 +1,6 @@
 // Survey1Page.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import SectionProgressBar from "../component/SectionProgressBar";
 import SurveyQuestion from "../component/SurveyQeustion";
 import NavigationButtons from "../component/NavigationButtons";
 import questionSets from "../questions";
@@ -19,8 +20,13 @@ function Survey1Page() {
     }
   };
 
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [currentPage]);
+
   return (
     <div className="survey-page">
+      <SectionProgressBar currentSection={currentPage + 1} totalSections={3} />
       <div className="survey-content">
         {questionSets[currentPage].map((q, index) => (
           <SurveyQuestion key={index} q={q} questionNumber={index + 1} />

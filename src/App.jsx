@@ -1,7 +1,7 @@
 // App.jsx
 import React from "react";
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Survey1Page from "./page/Survey1Page";
 import Survey2Page from "./page/Survey2Page";
 import Header from "../src/component/Header";

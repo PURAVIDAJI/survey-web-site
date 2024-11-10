@@ -2,6 +2,12 @@
 import React from "react";
 
 function SurveyQuestion({ q, questionNumber }) {
+  const handleInputChange = () => {
+    if (onAnswerSubmit) {
+      onAnswerSubmit();
+    }
+  };
+
   return (
     <div className="survey-question">
       <p style={{ backgroundColor: "#F8E8EE" }}>
@@ -14,6 +20,7 @@ function SurveyQuestion({ q, questionNumber }) {
             placeholder="Type your answer here"
             className="short-answer-input"
             name={`question-${questionNumber}`}
+            onChange={handleInputChange}
           />
         </div>
       ) : (
@@ -28,6 +35,7 @@ function SurveyQuestion({ q, questionNumber }) {
               id={option}
               name={`question-${questionNumber}`}
               value={option}
+              onChange={handleInputChange}
             />
             <label htmlFor={option} style={{ backgroundColor: "#F8E8EE" }}>
               {option}

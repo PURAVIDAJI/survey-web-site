@@ -8,7 +8,9 @@ function NavigationButtons({
   onNext,
 }) {
   return (
-    <div className="button-container">
+    <div
+      className={`button-container ${currentPage === 0 ? "align-right" : ""}`}
+    >
       {currentPage > 0 && (
         <button onClick={onPrevious} className="nav-button">
           Previous
