@@ -1,11 +1,10 @@
 // SurveyQuestion.jsx
 import React from "react";
 
-function SurveyQuestion({ q, questionNumber }) {
-  const handleInputChange = () => {
-    if (onAnswerSubmit) {
-      onAnswerSubmit();
-    }
+function SurveyQuestion({ q, questionNumber, onAnswerChange, currentPage, response }) {
+  const handleInputChange = (event) => {
+    const answer = event.target.value;
+    onAnswerChange(q.question, answer); 
   };
 
   return (
@@ -19,7 +18,8 @@ function SurveyQuestion({ q, questionNumber }) {
             type="text"
             placeholder="Type your answer here"
             className="short-answer-input"
-            name={`question-${questionNumber}`}
+            name={`question_${currentPage}_${questionNumber}`}
+            value={response}
             onChange={handleInputChange}
           />
         </div>
@@ -33,8 +33,9 @@ function SurveyQuestion({ q, questionNumber }) {
             <input
               type="radio"
               id={option}
-              name={`question-${questionNumber}`}
+              name={`question_${currentPage}_${questionNumber}`}
               value={option}
+              checked={response === option}  
               onChange={handleInputChange}
             />
             <label htmlFor={option} style={{ backgroundColor: "#F8E8EE" }}>
