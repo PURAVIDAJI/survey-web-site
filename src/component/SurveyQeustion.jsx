@@ -1,4 +1,3 @@
-// SurveyQuestion.jsx
 import React from "react";
 
 function SurveyQuestion({
@@ -7,24 +6,23 @@ function SurveyQuestion({
   questionId,
   onAnswerChange,
   showError,
-  currentPage,
   response,
 }) {
   const handleInputChange = (event) => {
     const answer = event.target.value;
-    onAnswerChange(q.question, answer);
+    onAnswerChange(answer);
   };
 
   const questionStyle = {
-    border: showError ? "2px solid red" : "1px solid #ddd", // Red border if showError is true
+    border: showError ? "2px solid red" : "1px solid #ddd",
     padding: "20px",
     borderRadius: "8px",
-    margin: "40px 0", // Consistent spacing
+    margin: "40px 0",
   };
 
   const optionStyle = {
-    backgroundColor: "transparent", // Ensure transparent background
-    padding: "5px 0", // Adjust spacing as needed
+    backgroundColor: "transparent",
+    padding: "5px 0",
     display: "flex",
     alignItems: "center",
   };
@@ -39,7 +37,7 @@ function SurveyQuestion({
           type="text"
           placeholder="Type your answer here"
           className="short-answer-input"
-          name={`question_${currentPage}_${questionNumber}`}
+          name={`question_${questionId}`}
           value={response}
           onChange={handleInputChange}
         />
@@ -49,17 +47,17 @@ function SurveyQuestion({
             <input
               type="radio"
               id={option}
-              name={`question_${currentPage}_${questionNumber}`}
+              name={`question_${questionId}`}
               value={option}
               checked={response === option}
               onChange={handleInputChange}
-              style={{ backgroundColor: "transparent" }} // Transparent background for radio
+              style={{ backgroundColor: "transparent" }}
             />
             <label
               htmlFor={option}
               style={{
-                backgroundColor: "transparent", // Transparent background for label
-                marginLeft: "5px", // Small spacing between radio and label
+                backgroundColor: "transparent",
+                marginLeft: "5px",
               }}
             >
               {option}
