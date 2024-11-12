@@ -41,6 +41,7 @@ function Survey1Page() {
     console.log("downaload",intervalId)
     const headers = [["Time Spent", timeSpent], ["Question", "Answer"]];
     const rows = Object.entries(responses);
+    const participant_code=(responses["Enter the Participant Code"])
     const csvContent = [...headers, ...rows]
       .map((row) => row.join(","))
       .join("\n");
@@ -50,7 +51,7 @@ function Survey1Page() {
 
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", "survey_responses.csv");
+    link.setAttribute("download", `${participant_code}_survery_responses.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
