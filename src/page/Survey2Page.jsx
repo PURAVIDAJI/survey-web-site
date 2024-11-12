@@ -7,11 +7,14 @@ import questionSets from "../questions";
 
 function Survey2Page() {
   const [currentPage, setCurrentPage] = useState(0);
+  const [responses, setResponses] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [currentGif, setCurrentGif] = useState("");
   const [answers, setAnswers] = useState({});
   const [showErrors, setShowErrors] = useState(false);
   const firstUnansweredRef = useRef(null); // Reference to scroll to first unanswered question
+  const [startTime] = useState(Date.now());
+  const [timer, setTimer] = useState(0);
 
   // Array of Giphy iframe URLs
   const gifs = [
@@ -32,7 +35,7 @@ function Survey2Page() {
 
     // Check if all questions on the current page have been answered
     currentQuestions.forEach((q, index) => {
-      if (!answers[`question-${currentPage}-${index}`]) {
+      if (!responses[`question-${currentPage}-${index}`]) {
         allAnswered = false;
         if (!firstUnansweredRef.current) {
           firstUnansweredRef.current = `question-${currentPage}-${index}`;
@@ -68,12 +71,42 @@ function Survey2Page() {
     }
   };
 
-  const handleAnswerChange = (questionId, isAnswered) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [questionId]: isAnswered,
+  const handleAnswerChange = (questionId, answer) => {
+    setResponses((prevResponses) => ({
+      ...prevResponses,
+      [questionId]: answer,
     }));
   };
+
+  const downloadCSV = () => {
+    const timeSpent = new Date(timer * 1000).toISOString().substr(14, 5);
+    const headers = [
+      ["Time Spent", timeSpent],
+      ["Question", "Answer"],
+    ];
+    const rows = Object.entries(responses);
+    const participant_code = responses["question-0-0"] || "participant";
+    const csvContent = [...headers, ...rows]
+      .map((row) => row.join(","))
+      .join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `${participant_code}_survey_responses.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer(Math.floor((Date.now() - startTime) / 1000));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [startTime]);
 
   useEffect(() => {
     window.scrollTo({ top: 0 });
@@ -93,19 +126,17 @@ function Survey2Page() {
         <div className="survey-content">
           {questionSets[currentPage].map((q, index) => (
             <SurveyQuestion
-              key={index}
+              key={`${currentPage}-${index}`}
               q={q}
               questionNumber={index + 1}
               questionId={`question-${currentPage}-${index}`}
-              onAnswerChange={(isAnswered) =>
-                handleAnswerChange(
-                  `question-${currentPage}-${index}`,
-                  isAnswered
-                )
+              onAnswerChange={(answer) =>
+                handleAnswerChange(`question-${currentPage}-${index}`, answer)
               }
               showError={
-                showErrors && !answers[`question-${currentPage}-${index}`]
+                showErrors && !responses[`question-${currentPage}-${index}`]
               } // Show error if unanswered and showErrors is true
+              response={responses[`question-${currentPage}-${index}`] || ""}
             />
           ))}
         </div>
@@ -118,6 +149,7 @@ function Survey2Page() {
           questionSetsLength={questionSets.length}
           onPrevious={handlePrevious}
           onNext={handleNext}
+          onSubmit={downloadCSV}
         />
       )}
     </div>
