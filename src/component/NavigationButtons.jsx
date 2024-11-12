@@ -6,6 +6,7 @@ function NavigationButtons({
   questionSetsLength,
   onPrevious,
   onNext,
+  onSubmit
 }) {
   return (
     <div
@@ -21,7 +22,7 @@ function NavigationButtons({
           Next
         </button>
       ) : (
-        <button className="nav-button" style={{ backgroundColor: "#008CBA" }}>
+        <button onClick={onSubmit} className="nav-button" style={{ backgroundColor: "#008CBA" }}>
           Submit
         </button>
       )}

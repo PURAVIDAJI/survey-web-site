@@ -7,10 +7,12 @@ function SurveyQuestion({
   questionId,
   onAnswerChange,
   showError,
+  currentPage,
+  response,
 }) {
   const handleInputChange = (event) => {
-    const hasAnswer = event.target.value.trim() !== "";
-    onAnswerChange(hasAnswer); // Notify parent component of the answer status
+    const answer = event.target.value;
+    onAnswerChange(q.question, answer);
   };
 
   const questionStyle = {
@@ -37,7 +39,8 @@ function SurveyQuestion({
           type="text"
           placeholder="Type your answer here"
           className="short-answer-input"
-          name={`question-${questionNumber}`}
+          name={`question_${currentPage}_${questionNumber}`}
+          value={response}
           onChange={handleInputChange}
         />
       ) : (
@@ -46,8 +49,9 @@ function SurveyQuestion({
             <input
               type="radio"
               id={option}
-              name={`question-${questionNumber}`}
+              name={`question_${currentPage}_${questionNumber}`}
               value={option}
+              checked={response === option}
               onChange={handleInputChange}
               style={{ backgroundColor: "transparent" }} // Transparent background for radio
             />
