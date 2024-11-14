@@ -64,7 +64,7 @@ function Survey1Page() {
     const rows = Object.entries(responses);
     const participant_code = responses["question-0-0"] || "participant";
     const csvContent = [...headers, ...rows]
-      .map((row) => row.join(","))
+      .map((row) => row.map(value => `"${value.replace(/"/g, '""')}"`).join(","))
       .join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
