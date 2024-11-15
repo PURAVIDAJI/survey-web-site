@@ -132,12 +132,14 @@ const questionSets = [
       ],
     },
     {
-      question: "What is the most common way to gather feedback in a survey?",
-      type: "multiple choice",
+      question: 
+        "This is a simple question. You don't need to be an avid survey-taker to answer. To help us understand the experience of taking surveys, please select not applicable for the following question. How likely are you to participate in future surveys?",
+      ,
       options: [
-        "Face-to-face interviews",
-        "Online questionnaires",
-        "Paper surveys",
+        "Not at all likely",
+        "Somewhat likely",
+        "Extremely likely",
+        "Not Applicable",
       ],
     },
     {
@@ -510,17 +512,7 @@ const questionSets = [
       type: "short answer",
       options: [],
     },
-    {
-      question: "What improvements would you suggest for the survey process?",
-      type: "short answer",
-      options: [],
-    },
-    {
-      question:
-        "How does language and accessibility affect your willingness to participate in surveys?",
-      type: "short answer",
-      options: [],
-    },
+
     {
       question:
         "How important is it for organizations to disclose how they will use your data from surveys?",
