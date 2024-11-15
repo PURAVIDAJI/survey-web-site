@@ -77,8 +77,9 @@ const questionSets = [
     },
     {
       question:
-        "When you are asked to take surveys, where do the requests to take these surveys usually come from (check all that apply)?",
+        "When you are asked to take surveys, where do the requests to take these surveys usually come from (select all that apply)?",
       type: "multiple choice",
+      isMultipleSelect: true,
       options: [
         "Work",
         "School",
@@ -92,6 +93,7 @@ const questionSets = [
       question:
         "When you choose to take surveys, where do the requests to take these surveys usually come from (select all that apply)?",
       type: "multiple choice",
+      isMultipleSelect: true,
       options: [
         "Work",
         "School",
@@ -102,8 +104,9 @@ const questionSets = [
     },
     {
       question:
-        "When you are asked to take a survey, what factors influence your decision to take, or not to take, the survey (select as many as apply)?",
+        "When you are asked to take a survey, what factors influence your decision to take, or not to take, the survey (select all that apply)?",
       type: "multiple choice",
+      isMultipleSelect: true,
       options: [
         "Time constraints",
         "Being paid to take a survey",
@@ -115,8 +118,9 @@ const questionSets = [
     },
     {
       question:
-        "Select all that apply. What survey formats have you taken before?",
+        "What survey formats have you taken before? (select all that apply)",
       type: "multiple choice",
+      isMultipleSelect: true,
       options: [
         "Online surveys",
         "In-person interviews",
@@ -489,8 +493,9 @@ const questionSets = [
     },
     {
       question:
-        "What devices do you usually use to complete surveys? Select all that apply.",
+        "What devices do you usually use to complete surveys? (Select all that apply)",
       type: "multiple choice",
+      isMultipleSelect: true,
       options: ["Smartphone", "Tablet", "Computer", "Other"],
     },
     {

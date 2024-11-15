@@ -16,33 +16,47 @@ function Survey1Page() {
     const currentQuestions = questionSets[currentPage];
     let allAnswered = true;
 
-    // Check if all questions on the current page have been answered
-    currentQuestions.forEach((q, index) => {
-      if (!responses[`question-${currentPage}-${index}`]) {
-        allAnswered = false;
-        if (!firstUnansweredRef.current) {
-          firstUnansweredRef.current = `question-${currentPage}-${index}`;
+    // Section 1만 필수 응답 체크
+    if (currentPage === 0) {
+      currentQuestions.forEach((q, index) => {
+        if (!responses[`question-${currentPage}-${index}`]) {
+          allAnswered = false;
+          if (!firstUnansweredRef.current) {
+            firstUnansweredRef.current = `question-${currentPage}-${index}`;
+          }
         }
-      }
-    });
+      });
 
-    if (allAnswered) {
-      setShowErrors(false);
-      setCurrentPage(currentPage + 1);
-    } else {
-      setShowErrors(true);
-      alert("Please answer all questions before proceeding.");
-      document
-        .getElementById(firstUnansweredRef.current)
-        .scrollIntoView({ behavior: "smooth" });
-      firstUnansweredRef.current = null;
+      if (!allAnswered) {
+        setShowErrors(true);
+        alert("Please answer all questions before proceeding.");
+        document
+          .getElementById(firstUnansweredRef.current)
+          .scrollIntoView({ behavior: "smooth" });
+        firstUnansweredRef.current = null;
+        return; // Early return if not all questions are answered
+      }
     }
+
+    // Reset error state and move to the next page
+    setShowErrors(false);
+    setCurrentPage(currentPage + 1);
+
+    // Scroll to the top
+    setTimeout(() => {
+      window.scrollTo({ top: 0 });
+    }, 0); // Ensure this runs after page update
   };
 
   const handlePrevious = () => {
     setShowErrors(false);
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
+
+      // Scroll to the top
+      setTimeout(() => {
+        window.scrollTo({ top: 0 });
+      }, 0); // Ensure this runs after page update
     }
   };
 
@@ -87,7 +101,8 @@ function Survey1Page() {
   }, [startTime]);
 
   useEffect(() => {
-    window.scrollTo({ top: 0 });
+    // Ensure the screen scrolls to top whenever the page changes
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
   return (
