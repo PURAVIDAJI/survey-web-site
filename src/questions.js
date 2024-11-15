@@ -132,9 +132,8 @@ const questionSets = [
       ],
     },
     {
-      question: 
+      question:
         "This is a simple question. You don't need to be an avid survey-taker to answer. To help us understand the experience of taking surveys, please select not applicable for the following question. How likely are you to participate in future surveys?",
-      ,
       options: [
         "Not at all likely",
         "Somewhat likely",
