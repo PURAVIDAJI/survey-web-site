@@ -114,7 +114,7 @@ function Survey2Page() {
 
   return (
     <div className="survey-page">
-      <SectionProgressBar currentSection={currentPage + 1} totalSections={3} />
+      <SectionProgressBar currentSection={currentPage + 1} totalSections={4} />
 
       {/* Display GIF loader if isLoading is true */}
       {isLoading ? (

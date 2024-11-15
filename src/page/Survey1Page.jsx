@@ -27,10 +27,8 @@ function Survey1Page() {
     });
 
     if (allAnswered) {
-      setTimeout(() => {
-        setShowErrors(false);
-        setCurrentPage(currentPage + 1);
-      }, 3500);
+      setShowErrors(false);
+      setCurrentPage(currentPage + 1);
     } else {
       setShowErrors(true);
       alert("Please answer all questions before proceeding.");
@@ -64,7 +62,9 @@ function Survey1Page() {
     const rows = Object.entries(responses);
     const participant_code = responses["question-0-0"] || "participant";
     const csvContent = [...headers, ...rows]
-      .map((row) => row.map(value => `"${value.replace(/"/g, '""')}"`).join(","))
+      .map((row) =>
+        row.map((value) => `"${value.replace(/"/g, '""')}"`).join(",")
+      )
       .join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
@@ -92,7 +92,7 @@ function Survey1Page() {
 
   return (
     <div className="survey-page">
-      <SectionProgressBar currentSection={currentPage + 1} totalSections={3} />
+      <SectionProgressBar currentSection={currentPage + 1} totalSections={4} />
 
       <div className="survey-content">
         {questionSets[currentPage].map((q, index) => (
