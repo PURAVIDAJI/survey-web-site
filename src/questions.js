@@ -86,7 +86,7 @@ const questionSets = [
         "Social media",
         "Friends/Family",
         "Companies",
-        "Other (specify)",
+        "Other",
       ],
     },
     {
@@ -99,7 +99,7 @@ const questionSets = [
         "School",
         "Social media",
         "Friends/Family",
-        "Other (specify)",
+        "Other",
       ],
     },
     {
@@ -113,7 +113,7 @@ const questionSets = [
         "My interest in the survey topic",
         "My connections to the people running the survey",
         "A feeling of obligation to contribute to the survey data",
-        "Other (specify)",
+        "Other",
       ],
     },
     {

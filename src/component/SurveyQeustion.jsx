@@ -1,4 +1,6 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function SurveyQuestion({
   q,
@@ -8,9 +10,35 @@ function SurveyQuestion({
   showError,
   response,
 }) {
+  const [otherValue, setOtherValue] = useState(
+    response.startsWith("Other: ") ? response.replace("Other: ", "") : ""
+  );
+
+  useEffect(() => {
+    // Clear otherValue if the response is not "Other"
+    if (!response.startsWith("Other: ")) {
+      setOtherValue("");
+    }
+  }, [response]);
+
+
   const handleInputChange = (event) => {
     const answer = event.target.value;
-    onAnswerChange(answer);
+
+    if (answer === "Other") {
+      // setOtherValue(""); // Reset otherValue when "Other" is selected
+      // onAnswerChange("Other"); // Only update response to "Other"
+      onAnswerChange("Other: " + otherValue); 
+     
+    } else {
+      setOtherValue(""); // Clear otherValue when other options are selected
+      onAnswerChange(answer);
+    }
+  };
+  const handleOtherInputChange = (event) => {
+    const answer = event.target.value;
+    setOtherValue(answer);
+    onAnswerChange("Other: " + answer);
   };
 
   const questionStyle = {
@@ -49,7 +77,7 @@ function SurveyQuestion({
               id={option}
               name={`question_${questionId}`}
               value={option}
-              checked={response === option}
+              checked={response === option || (option === "Other" && response.startsWith("Other: "))}
               onChange={handleInputChange}
               style={{ backgroundColor: "transparent" }}
             />
@@ -62,6 +90,15 @@ function SurveyQuestion({
             >
               {option}
             </label>
+            {option === "Other" && response.startsWith("Other: ")&& (
+              <input
+                type="text"
+                placeholder="Please specify"
+                value={otherValue}
+                onChange={handleOtherInputChange}
+                style={{ marginLeft: "10px" }}
+              />
+            )}
           </div>
         ))
       )}
