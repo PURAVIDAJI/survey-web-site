@@ -1,20 +1,21 @@
-// Survey2Page.jsx
 import React, { useState, useEffect, useRef } from "react";
 import SectionProgressBar from "../component/SectionProgressBar";
 import SurveyQuestion from "../component/SurveyQeustion";
 import NavigationButtons from "../component/NavigationButtons";
 import questionSets from "../questions";
+import { useNavigate } from "react-router-dom";
 
 function Survey2Page() {
   const [currentPage, setCurrentPage] = useState(0);
   const [responses, setResponses] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [currentGif, setCurrentGif] = useState("");
-  const [answers, setAnswers] = useState({});
+  const [currentMessage, setCurrentMessage] = useState(""); // For random message
   const [showErrors, setShowErrors] = useState(false);
   const firstUnansweredRef = useRef(null); // Reference to scroll to first unanswered question
   const [startTime] = useState(Date.now());
   const [timer, setTimer] = useState(0);
+  const navigate = useNavigate();
 
   // Array of Giphy iframe URLs
   const gifs = [
@@ -26,45 +27,60 @@ function Survey2Page() {
     '<iframe src="https://giphy.com/embed/ur5T6Wuw4xK2afXVmd" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
     '<iframe src="https://giphy.com/embed/T9AdlFYHRvcqJG0czT" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
     '<iframe src="https://giphy.com/embed/xlMWh89tib67i2jSJO" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
-    '<iframe src="https://giphy.com/embed/KpUmECkP8UDX4L7SkU" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+  ];
+
+  // Array of random messages
+  const messages = [
+    "Great job! Keep it up!",
+    "You're doing awesome!",
+    "Almost there, stay strong!",
   ];
 
   const handleNext = () => {
     const currentQuestions = questionSets[currentPage];
     let allAnswered = true;
 
-    // Check if all questions on the current page have been answered
-    currentQuestions.forEach((q, index) => {
-      if (!responses[`question-${currentPage}-${index}`]) {
-        allAnswered = false;
-        if (!firstUnansweredRef.current) {
-          firstUnansweredRef.current = `question-${currentPage}-${index}`;
+    // Only enforce mandatory answers for the first section (currentPage === 0)
+    if (currentPage === 0) {
+      currentQuestions.forEach((q, index) => {
+        if (!responses[`question-${currentPage}-${index}`]) {
+          allAnswered = false;
+          if (!firstUnansweredRef.current) {
+            firstUnansweredRef.current = `question-${currentPage}-${index}`;
+          }
         }
+      });
+
+      if (!allAnswered) {
+        setShowErrors(true); // Show errors for unanswered questions
+        alert("Please answer all questions before proceeding.");
+        document
+          .getElementById(firstUnansweredRef.current)
+          .scrollIntoView({ behavior: "smooth" });
+        firstUnansweredRef.current = null; // Reset for next validation check
+        return; // Stop here if not all questions are answered
       }
-    });
-
-    if (allAnswered) {
-      setIsLoading(true); // Start loading with GIF
-      setShowErrors(false); // Hide any previous errors
-      // Randomly select a GIF iframe from the array
-      const randomIndex = Math.floor(Math.random() * gifs.length);
-      setCurrentGif(gifs[randomIndex]);
-
-      setTimeout(() => {
-        setIsLoading(false); // Hide GIF
-        setCurrentPage(currentPage + 1); // Move to the next page
-      }, 3500); // 3.5 seconds delay
-    } else {
-      setShowErrors(true); // Show errors for unanswered questions
-      alert("Please answer all questions before proceeding.");
-      document
-        .getElementById(firstUnansweredRef.current)
-        .scrollIntoView({ behavior: "smooth" });
-      firstUnansweredRef.current = null; // Reset for next validation check
     }
+
+    setIsLoading(true); // Start loading with GIF
+    setShowErrors(false); // Hide any previous errors
+
+    // Randomly select a GIF iframe from the array
+    const randomGifIndex = Math.floor(Math.random() * gifs.length);
+    setCurrentGif(gifs[randomGifIndex]);
+
+    // Randomly select a message from the array
+    const randomMessageIndex = Math.floor(Math.random() * messages.length);
+    setCurrentMessage(messages[randomMessageIndex]);
+
+    setTimeout(() => {
+      setIsLoading(false); // Hide GIF and message
+      setCurrentPage(currentPage + 1); // Move to the next page
+    }, 5000); // 5 seconds delay
   };
 
   const handlePrevious = () => {
+    window.scrollTo({ top: 0 });
     setShowErrors(false); // Reset errors when going back
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
@@ -99,7 +115,10 @@ function Survey2Page() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    navigate("/thank-you2");
   };
+
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer(Math.floor((Date.now() - startTime) / 1000));
@@ -120,8 +139,32 @@ function Survey2Page() {
       {isLoading ? (
         <div
           className="gif-container"
-          dangerouslySetInnerHTML={{ __html: currentGif }}
-        />
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <div
+            className="gif-message"
+            style={{
+              fontSize: "24px",
+              fontWeight: "bold",
+              color: "white",
+              textShadow: "2px 2px 5px rgba(0, 0, 0, 0.7)",
+              marginBottom: "20px", // Make sure the message appears above the GIF
+            }}
+          >
+            {currentMessage}
+          </div>
+          <div
+            className="gif-frame"
+            dangerouslySetInnerHTML={{ __html: currentGif }}
+            style={{ display: "block" }}
+          />
+        </div>
       ) : (
         <div className="survey-content">
           {questionSets[currentPage].map((q, index) => (
@@ -135,7 +178,7 @@ function Survey2Page() {
               }
               showError={
                 showErrors && !responses[`question-${currentPage}-${index}`]
-              } // Show error if unanswered and showErrors is true
+              }
               response={responses[`question-${currentPage}-${index}`] || ""}
             />
           ))}

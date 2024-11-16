@@ -39,21 +39,16 @@ function Survey1Page() {
       }
     }
 
+    window.scrollTo({ top: 0 });
     setShowErrors(false);
     setCurrentPage(currentPage + 1);
-
-    setTimeout(() => {
-      window.scrollTo({ top: 0 });
-    }, 0);
   };
 
   const handlePrevious = () => {
+    window.scrollTo({ top: 0 });
     setShowErrors(false);
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
-      setTimeout(() => {
-        window.scrollTo({ top: 0 });
-      }, 0);
     }
   };
 
