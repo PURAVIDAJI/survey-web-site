@@ -15,18 +15,26 @@ function Survey2Page() {
   const firstUnansweredRef = useRef(null); // Reference to scroll to first unanswered question
   const [startTime] = useState(Date.now());
   const [timer, setTimer] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
 
   // Array of Giphy iframe URLs
   const gifs = [
-    '<iframe src="https://giphy.com/embed/wD3zyGzDFjKL6bEMDb" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
-    '<iframe src="https://giphy.com/embed/iiEKbVQJOysUjMEU0K" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
-    '<iframe src="https://giphy.com/embed/xT0xeAIDaF8WaeHF6w" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
-    '<iframe src="https://giphy.com/embed/xT9DPIBYf0pAviBLzO" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
-    '<iframe src="https://giphy.com/embed/26xBSxisb1xYv1dja" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
-    '<iframe src="https://giphy.com/embed/ur5T6Wuw4xK2afXVmd" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
-    '<iframe src="https://giphy.com/embed/T9AdlFYHRvcqJG0czT" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
-    '<iframe src="https://giphy.com/embed/xlMWh89tib67i2jSJO" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+    {
+      iframe:
+        '<iframe src="https://giphy.com/embed/wD3zyGzDFjKL6bEMDb" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+      source: "https://giphy.com/gifs/wD3zyGzDFjKL6bEMDb",
+    },
+    {
+      iframe:
+        '<iframe src="https://giphy.com/embed/iiEKbVQJOysUjMEU0K" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+      source: "https://giphy.com/gifs/iiEKbVQJOysUjMEU0K",
+    },
+    {
+      iframe:
+        '<iframe src="https://giphy.com/embed/ur5T6Wuw4xK2afXVmd" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>',
+      source: "https://giphy.com/gifs/ur5T6Wuw4xK2afXVmd",
+    },
   ];
 
   // Array of random messages
@@ -65,17 +73,18 @@ function Survey2Page() {
     setIsLoading(true); // Start loading with GIF
     setShowErrors(false); // Hide any previous errors
 
-    // Randomly select a GIF iframe from the array
-    const randomGifIndex = Math.floor(Math.random() * gifs.length);
-    setCurrentGif(gifs[randomGifIndex]);
+    // // Randomly select a GIF iframe from the array
+    // const randomGifIndex = Math.floor(Math.random() * gifs.length);
+    // setCurrentGif(gifs[randomGifIndex]);
 
-    // Randomly select a message from the array
-    const randomMessageIndex = Math.floor(Math.random() * messages.length);
-    setCurrentMessage(messages[randomMessageIndex]);
+    // // Randomly select a message from the array
+    // const randomMessageIndex = Math.floor(Math.random() * messages.length);
+    // setCurrentMessage(messages[randomMessageIndex]);
 
     setTimeout(() => {
       setIsLoading(false); // Hide GIF and message
       setCurrentPage(currentPage + 1); // Move to the next page
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % gifs.length);
     }, 5000); // 5 seconds delay
   };
 
@@ -84,6 +93,9 @@ function Survey2Page() {
     setShowErrors(false); // Reset errors when going back
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
+      setCurrentIndex((prevIndex) =>
+        prevIndex === 0 ? gifs.length - 1 : prevIndex - 1
+      );
     }
   };
 
@@ -185,13 +197,22 @@ function Survey2Page() {
               marginBottom: "20px", // Make sure the message appears above the GIF
             }}
           >
-            {currentMessage}
+            {messages[currentIndex]}
           </div>
           <div
             className="gif-frame"
-            dangerouslySetInnerHTML={{ __html: currentGif }}
+            dangerouslySetInnerHTML={{ __html: gifs[currentIndex].iframe }}
             style={{ display: "block" }}
           />
+          <p>
+            <a
+              href={gifs[currentIndex].source}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              via GIPHY
+            </a>
+          </p>
         </div>
       ) : (
         <div className="survey-content">
