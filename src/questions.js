@@ -18,7 +18,7 @@ const questionSets = [
         "Non-binary",
         "Genderqueer",
         "Prefer not to answer",
-        "Prefer to self-describe",
+        "Other",
       ],
     },
     { question: "What is your occupation?", type: "short answer", options: [] },
