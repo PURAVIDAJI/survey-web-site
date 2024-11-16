@@ -21,15 +21,13 @@ function SurveyQuestion({
     }
   }, [response]);
 
-
   const handleInputChange = (event) => {
     const answer = event.target.value;
 
     if (answer === "Other") {
       // setOtherValue(""); // Reset otherValue when "Other" is selected
       // onAnswerChange("Other"); // Only update response to "Other"
-      onAnswerChange("Other: " + otherValue); 
-     
+      onAnswerChange("Other: " + otherValue);
     } else {
       setOtherValue(""); // Clear otherValue when other options are selected
       onAnswerChange(answer);
@@ -74,15 +72,18 @@ function SurveyQuestion({
           <div key={index} className="option" style={optionStyle}>
             <input
               type="radio"
-              id={option}
+              id={`${questionId}-${option}`}
               name={`question_${questionId}`}
               value={option}
-              checked={response === option || (option === "Other" && response.startsWith("Other: "))}
+              checked={
+                response === option ||
+                (option === "Other" && response.startsWith("Other: "))
+              }
               onChange={handleInputChange}
               style={{ backgroundColor: "transparent" }}
             />
             <label
-              htmlFor={option}
+              htmlFor={`${questionId}-${option}`}
               style={{
                 backgroundColor: "transparent",
                 marginLeft: "5px",
@@ -90,7 +91,7 @@ function SurveyQuestion({
             >
               {option}
             </label>
-            {option === "Other" && response.startsWith("Other: ")&& (
+            {option === "Other" && response.startsWith("Other: ") && (
               <input
                 type="text"
                 placeholder="Please specify"

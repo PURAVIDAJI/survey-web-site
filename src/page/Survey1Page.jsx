@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import SectionProgressBar from "../component/SectionProgressBar";
 import SurveyQuestion from "../component/SurveyQeustion";
 import NavigationButtons from "../component/NavigationButtons";
@@ -11,12 +12,12 @@ function Survey1Page() {
   const firstUnansweredRef = useRef(null);
   const [startTime] = useState(Date.now());
   const [timer, setTimer] = useState(0);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleNext = () => {
     const currentQuestions = questionSets[currentPage];
     let allAnswered = true;
 
-    // Section 1만 필수 응답 체크
     if (currentPage === 0) {
       currentQuestions.forEach((q, index) => {
         if (!responses[`question-${currentPage}-${index}`]) {
@@ -34,29 +35,25 @@ function Survey1Page() {
           .getElementById(firstUnansweredRef.current)
           .scrollIntoView({ behavior: "smooth" });
         firstUnansweredRef.current = null;
-        return; // Early return if not all questions are answered
+        return;
       }
     }
 
-    // Reset error state and move to the next page
     setShowErrors(false);
     setCurrentPage(currentPage + 1);
 
-    // Scroll to the top
     setTimeout(() => {
       window.scrollTo({ top: 0 });
-    }, 0); // Ensure this runs after page update
+    }, 0);
   };
 
   const handlePrevious = () => {
     setShowErrors(false);
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
-
-      // Scroll to the top
       setTimeout(() => {
         window.scrollTo({ top: 0 });
-      }, 0); // Ensure this runs after page update
+      }, 0);
     }
   };
 
@@ -67,7 +64,8 @@ function Survey1Page() {
     }));
   };
 
-  const downloadCSV = () => {
+  const onSubmit = () => {
+    // Perform CSV download
     const timeSpent = new Date(timer * 1000).toISOString().substr(14, 5);
     const headers = [
       ["Time Spent", timeSpent],
@@ -90,6 +88,9 @@ function Survey1Page() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    // Navigate to ThankYouPage
+    navigate("/thank-you");
   };
 
   useEffect(() => {
@@ -101,7 +102,6 @@ function Survey1Page() {
   }, [startTime]);
 
   useEffect(() => {
-    // Ensure the screen scrolls to top whenever the page changes
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
@@ -132,7 +132,7 @@ function Survey1Page() {
         questionSetsLength={questionSets.length}
         onPrevious={handlePrevious}
         onNext={handleNext}
-        onSubmit={downloadCSV}
+        onSubmit={onSubmit} // Use the new onSubmit function
       />
     </div>
   );
