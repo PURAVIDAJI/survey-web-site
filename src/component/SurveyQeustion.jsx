@@ -69,9 +69,18 @@ function SurveyQuestion({
 
   return (
     <div id={questionId} className="survey-question" style={questionStyle}>
-      <p
-        style={{ backgroundColor: "transparent" }}
-      >{`${questionNumber}. ${q.question}`}</p>
+      <p style={{ backgroundColor: "transparent" }}>
+        {`${questionNumber}. `}
+        {Array.isArray(q.question)
+          ? q.question.map((line, index) => (
+              <span key={index} style={{ backgroundColor: "transparent" }}>
+                {line}
+                <br />
+              </span>
+            ))
+          : q.question}
+      </p>
+
       {q.type === "short answer" ? (
         <input
           type="text"

@@ -94,13 +94,7 @@ const questionSets = [
         "When you choose to take surveys, where do the requests to take these surveys usually come from (select all that apply)?",
       type: "multiple choice",
       isMultipleSelect: true,
-      options: [
-        "Work",
-        "School",
-        "Social media",
-        "Friends/Family",
-        "Other",
-      ],
+      options: ["Work", "School", "Social media", "Friends/Family", "Other"],
     },
     {
       question:
@@ -132,8 +126,15 @@ const questionSets = [
       ],
     },
     {
-      question:
-        "This is a simple question. You don't need to be an avid survey-taker to answer. To help us understand the experience of taking surveys, please select not applicable for the following question. How likely are you to participate in future surveys?",
+      question: [
+        "This is a simple question.",
+        "",
+        "You don't need to be an avid survey-taker to answer.",
+        "To help us understand the experience of taking surveys, please select not applicable for the following question.",
+        "",
+        "  How likely are you to participate in future surveys?",
+        "",
+      ],
       options: [
         "Not at all likely",
         "Somewhat likely",
@@ -141,6 +142,7 @@ const questionSets = [
         "Not Applicable",
       ],
     },
+
     {
       question: "Do you ever make surveys to send out to other people?",
       type: "multiple choice",
