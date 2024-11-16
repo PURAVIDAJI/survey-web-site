@@ -60,32 +60,51 @@ function Survey1Page() {
   };
 
   const onSubmit = () => {
-    // Perform CSV download
-    const timeSpent = new Date(timer * 1000).toISOString().substr(14, 5);
-    const headers = [
-      ["Time Spent", timeSpent],
-      ["Question", "Answer"],
-    ];
-    const rows = Object.entries(responses);
-    const participant_code = responses["question-0-0"] || "participant";
-    const csvContent = [...headers, ...rows]
-      .map((row) =>
-        row.map((value) => `"${value.replace(/"/g, '""')}"`).join(",")
-      )
-      .join("\n");
+    if (!responses || Object.keys(responses).length === 0) {
+      alert("No responses recorded. Please answer at least one question.");
+      return;
+    }
 
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
+    try {
+      // Calculate time spent on the survey
+      const timeSpent = new Date(timer * 1000).toISOString().substr(14, 5);
 
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", `${participant_code}_survey_responses.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      // Create CSV headers
+      const headers = [
+        ["Time Spent", timeSpent],
+        ["Question", "Answer"],
+      ];
 
-    // Navigate to ThankYouPage
-    navigate("/thank-you");
+      // Prepare CSV rows from responses
+      const rows = Object.entries(responses).map(([key, value]) => [
+        key,
+        value,
+      ]);
+
+      const participant_code = responses["question-0-0"] || "participant";
+      const csvContent = [...headers, ...rows]
+        .map((row) =>
+          row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(",")
+        )
+        .join("\n");
+
+      // Create Blob and trigger download
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${participant_code}_survey_responses.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Navigate to ThankYouPage
+      navigate("/thank-you");
+    } catch (error) {
+      console.error("Error during submission:", error);
+      alert("An error occurred during submission. Please try again.");
+    }
   };
 
   useEffect(() => {
